@@ -5,10 +5,13 @@ const uri = `mongodb+srv://${
   process.env.MONGO_PWD}@cluster0-gzywj.mongodb.net/${
   process.env.MONGO_DB}?retryWrites=true&w=majority`
 const bodyParser = require('body-parser')
+const drinkingWater = require('./routes/DrinkingWater')
 
 const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use('/drink_water', drinkingWater)
 
 app.get('/', function (req, res) {
   res.send('Hello World!')
