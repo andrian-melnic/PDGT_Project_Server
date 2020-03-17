@@ -1,0 +1,7 @@
+{
+  "env":{
+    "MONGO_USR":"andry",
+    "MONGO_PWD":"mCtT80Rs1Dd45SkJ",
+    "MONGO_DB":"pdgt_project_db"
+  }
+}
