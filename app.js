@@ -1,9 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const uri = `mongodb+srv://${
-  process.env.MONGO_USR}:${
-  process.env.MONGO_PWD}@cluster0-gzywj.mongodb.net/${
-  process.env.MONGO_DB}?retryWrites=true&w=majority`
+const uri = 'mongodb+srv://andry:mCtT80Rs1Dd45SkJ@cluster0-gzywj.mongodb.net/pdgt_project_db?retryWrites=true&w=majority'
 const bodyParser = require('body-parser')
 const drinkingWater = require('./routes/DrinkingWater')
 
