@@ -16,7 +16,9 @@ app.get('/', function (req, res) {
 
 mongoose.connect(uri, { useNewUrlParser: true })
   .then(() => {
-    app.listen(3000)
+    app.listen(process.env.PORT, process.env.IP, function() {
+      console.log('Listening')
+    })
   })
   .catch((err) => {
     console.log(err)
