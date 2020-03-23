@@ -1,5 +1,5 @@
 const Location = require('../models/Location')
-
+const User = require('../models/User')
 exports.loc_get = async (req, res) => {
   // GET all drinking water fountains
   try {
@@ -22,10 +22,19 @@ exports.loc_getId = async (req, res) => {
 
 // Add a new drinking water fountain
 exports.loc_create = async (req, res) => {
-  const location = new Location(req.body)
+  const { payload: { id } } = req
+  const location = new Location({
+    latitude: req.body.latitude,
+    longitude: req.body.latitude,
+    name: req.body.latitude,
+    addedBy: id
+  })
   try {
     const addedDrinkingWaterLoc = await (location.save())
+    const creator = await User.findById(id)
     res.json(addedDrinkingWaterLoc)
+    creator.createdLocations.push(location)
+    await creator.save()
   } catch (err) {
     console.log(err)
   }

@@ -1,6 +1,10 @@
 const User = require('../models/User')
 const passport = require('passport')
-
+/*
+  TODO
+  ---> Need to check if user exists
+  ---> Better error handling
+*/
 exports.register = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email: req.body.user.email })
