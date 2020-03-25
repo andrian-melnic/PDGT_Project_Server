@@ -1,10 +1,15 @@
 const express = require('express')
+require('dotenv').config()
 const mongoose = require('mongoose')
-const uri = 'mongodb+srv://andry:mCtT80Rs1Dd45SkJ@cluster0-gzywj.mongodb.net/pdgt_project_db?retryWrites=true&w=majority'
+const uri = `mongodb+srv://${process.env.DB_USER}` +
+              `:${process.env.DB_PASSWORD}` +
+              `@${process.env.DB_HOST}` +
+              `/${process.env.DB_NAME}?retryWrites=true&w=majority`
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const drinkingWater = require('./routes/locations')
 const users = require('./routes/users')
+
 require('./config/passport')
 
 const app = express()
