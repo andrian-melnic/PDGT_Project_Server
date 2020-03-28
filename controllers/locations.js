@@ -1,5 +1,24 @@
 const Location = require('../models/Location')
 const User = require('../models/User')
+const axios = require('axios')
+
+async function reverseGeocode (coordinates) {
+  try {
+    const query = 'https://maps.googleapis.com/maps/api/geocode/json?' +
+                  `latlng=${coordinates.lat},${coordinates.lng}` +
+                  `&key=${process.env.GOOGLE_MAPS_API_KEY}` +
+                  '&result_type=administrative_area_level_3'
+
+    const response = await axios.get(query)
+
+    const resData = response.data.results[0]
+    const comune = resData.address_components[0].long_name
+    const provincia = resData.address_components[1].short_name
+    return { comune: comune, provincia: provincia }
+  } catch (err) {
+    console.log(err)
+  }
+}
 exports.loc_get = async (req, res) => {
   // GET all drinking water fountains
   try {
@@ -10,7 +29,7 @@ exports.loc_get = async (req, res) => {
   }
 }
 
-// GET a drinking water fountain by specifying the ID
+// GET a drinking water location by specifying the ID
 exports.loc_getId = async (req, res) => {
   try {
     const drinkingWaterLoc = await (Location.findById(req.params.id))
@@ -20,16 +39,21 @@ exports.loc_getId = async (req, res) => {
   }
 }
 
-// Add a new drinking water fountain
+// Add a new drinking water location
 exports.loc_create = async (req, res) => {
   const { payload: { id } } = req
-  const location = new Location({
-    latitude: req.body.latitude,
-    longitude: req.body.latitude,
-    name: req.body.latitude,
-    addedBy: id
-  })
   try {
+    const revGeoData = await reverseGeocode({
+      lat: req.body.latitude,
+      lng: req.body.longitude
+    })
+    const location = new Location({
+      lat: req.body.latitude,
+      lng: req.body.longitude,
+      comune: revGeoData.comune,
+      provincia: revGeoData.provincia,
+      addedBy: id
+    })
     const addedDrinkingWaterLoc = await (location.save())
     const creator = await User.findById(id)
     res.json(addedDrinkingWaterLoc)
