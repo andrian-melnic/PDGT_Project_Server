@@ -1,5 +1,5 @@
-const Location = require('../models/Location')
-const User = require('../models/User')
+const Location = require('../models/location')
+const User = require('../models/user')
 const axios = require('axios')
 
 async function reverseGeocode (coordinates) {

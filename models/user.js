@@ -51,15 +51,14 @@ UsersSchema.methods.generateJWT = function () {
   expirationDate.setDate(today.getDate() + 60)
 
   return jwt.sign({
-    email: this.email,
     id: this._id,
-    exp: parseInt(expirationDate.getTime() / 1000, 10)
-  }, 'secret')
+    email: this.email
+  }, 'secret', { expiresIn: '1h' })
 }
 
 UsersSchema.methods.toAuthJSON = function () {
   return {
-    _id: this._id,
+    id: this._id,
     email: this.email,
     token: this.generateJWT()
   }

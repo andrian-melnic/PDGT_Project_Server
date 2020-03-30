@@ -1,4 +1,4 @@
-const Location = require('../models/Location')
+const Location = require('../models/location')
 exports.verifyIDs = async (req, res, next) => {
   try {
     // const currentUserId = await User.findById(req.payload.id)

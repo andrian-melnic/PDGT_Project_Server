@@ -9,10 +9,18 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const drinkingWater = require('./routes/locations')
 const users = require('./routes/users')
-
 require('./config/passport')
 
 const app = express()
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200)
+  }
+  next()
+})
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -24,9 +32,6 @@ app.use(session({
 }))
 
 // Routes
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
 app.use('/drink_water', drinkingWater)
 app.use('/users', users)
 
@@ -36,7 +41,7 @@ mongoose.connect(uri, {
   useUnifiedTopology: true
 }).then(() => {
   app.listen(process.env.PORT, function () {
-    console.log('Listening')
+    console.log(`Listening on port ${process.env.PORT}`)
   })
 }).catch((err) => {
   console.log(err)

@@ -1,5 +1,4 @@
-const User = require('../models/User')
-const passport = require('passport')
+const User = require('../models/user')
 /*
   TODO
   ---> Need to check if user exists
@@ -25,27 +24,11 @@ exports.register = async (req, res) => {
     throw error
   }
 }
-
-exports.login = (req, res, next) => {
-  return passport.authenticate(
-    'local',
-    { session: false },
-    (err, passportUser, info) => {
-      if (err) {
-        return next(err)
-      }
-
-      if (passportUser) {
-        const user = passportUser
-        user.token = passportUser.generateJWT()
-
-        return res.json({ user: user.toAuthJSON() })
-      }
-
-      return status(400).info
-    })(req, res, next)
+exports.login = (req, res) => {
+  const user = req.user
+  user.token = req.user.generateJWT()
+  return res.json({ user: user.toAuthJSON() })
 }
-
 exports.current = async (req, res) => {
   const { payload: { id } } = req
   try {
