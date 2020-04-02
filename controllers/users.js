@@ -21,7 +21,9 @@ exports.register = async (req, res) => {
     })
   } catch (error) {
     console.log(error)
-    throw error
+    res.json({
+      error: error.message
+    })
   }
 }
 exports.login = (req, res) => {
