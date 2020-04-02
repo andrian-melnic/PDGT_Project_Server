@@ -4,17 +4,14 @@ const axios = require('axios')
 
 async function reverseGeocode (coordinates) {
   try {
-    const query = 'https://maps.googleapis.com/maps/api/geocode/json?' +
-                  `latlng=${coordinates.lat},${coordinates.lng}` +
-                  `&key=${process.env.GOOGLE_MAPS_API_KEY}` +
-                  '&result_type=administrative_area_level_3'
-
+    const query = 'https://nominatim.openstreetmap.org/reverse?format=geojson&lat=' +
+                  `${coordinates.lat}&lon=${coordinates.lng}`
     const response = await axios.get(query)
 
-    const resData = response.data.results[0]
-    const comune = resData.address_components[0].long_name
-    const provincia = resData.address_components[1].short_name
-    return { comune: comune, provincia: provincia }
+    const resData = response.data.features[0]
+
+    const address = resData.properties.display_name
+    return { address: address }
   } catch (err) {
     console.log(err)
   }
@@ -50,8 +47,7 @@ exports.loc_create = async (req, res) => {
     const location = new Location({
       lat: req.body.latitude,
       lng: req.body.longitude,
-      comune: revGeoData.comune,
-      provincia: revGeoData.provincia,
+      address: revGeoData.address,
       addedBy: id
     })
     const addedDrinkingWaterLoc = await (location.save())
@@ -60,20 +56,31 @@ exports.loc_create = async (req, res) => {
     creator.createdLocations.push(location)
     await creator.save()
   } catch (err) {
+    res.json({
+      error: err.message
+    })
     console.log(err)
   }
 }
 
 // Edit a location with a specific ID
 exports.loc_update = async (req, res) => {
-  const newData = req.body
-  console.log(newData)
+  const revGeoData = await reverseGeocode({
+    lat: req.body.latitude,
+    lng: req.body.longitude
+  })
+  const updatedData = {
+    lat: req.body.latitude,
+    lng: req.body.longitude,
+    address: revGeoData.address
+  }
+  console.log(updatedData)
   try {
     const updatedLocation = await Location.findByIdAndUpdate(
       req.params.id,
-      { $set: newData }
+      { $set: updatedData }
     )
-    res.send('Location ' + updatedLocation + 'updated in:' + newData)
+    res.send('Location ' + updatedLocation + 'updated in:' + updatedData)
   } catch (error) {
     console.log(error)
   }
