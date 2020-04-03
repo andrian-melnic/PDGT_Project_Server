@@ -1,17 +1,12 @@
 {
-  "name": "pdgt_project",
+  "name": "pdgt_project_server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "nodemon app.js",
-    "start": "node app.js",
-    "build": "cd ../client/ && npm isntall && npm run build"
+    "start": "node app.js"
   },
-  "cacheDirectories": [
-    "node_modules",
-    "client/node_modules"
-  ],
   "author": "Andrian Melnic",
   "license": "ISC",
   "dependencies": {
