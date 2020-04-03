@@ -9,6 +9,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const drinkingWater = require('./routes/locations')
 const users = require('./routes/users')
+const path = require('path')
 require('./config/passport')
 
 const app = express()
@@ -30,11 +31,14 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }))
-
+app.use(express.static(path.resolve(__dirname, '../client/build')))
 // Routes
 app.use('/drink_water', drinkingWater)
 app.use('/users', users)
 
+app.get('*', function(req, res){
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
+})
 // Database connection and listening
 mongoose.connect(uri, {
   useNewUrlParser: true,

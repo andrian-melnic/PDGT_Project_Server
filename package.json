@@ -5,8 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "build": "cd ../client/ && npm isntall && npm run build"
   },
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ],
   "author": "Andrian Melnic",
   "license": "ISC",
   "dependencies": {
