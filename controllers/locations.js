@@ -29,7 +29,7 @@ exports.loc_get = async (req, res) => {
 // GET a drinking water location by specifying the ID
 exports.loc_getId = async (req, res) => {
   try {
-    const drinkingWaterLoc = await (Location.findById(req.params.id))
+    const drinkingWaterLoc = await (Location.findById(req.query.id))
     res.send(drinkingWaterLoc)
   } catch (err) {
     console.log(err)
@@ -77,7 +77,7 @@ exports.loc_update = async (req, res) => {
   console.log(updatedData)
   try {
     const updatedLocation = await Location.findByIdAndUpdate(
-      req.params.id,
+      req.query.id,
       { $set: updatedData }
     )
     res.send('Location ' + updatedLocation + 'updated in:' + updatedData)
@@ -89,7 +89,7 @@ exports.loc_update = async (req, res) => {
 // Delete a location with a specific ID
 exports.loc_delete = async (req, res) => {
   try {
-    const deletedLocation = await (Location.findByIdAndRemove(req.params.id))
+    const deletedLocation = await (Location.findByIdAndRemove(req.query.id))
     res.send('Deleted: ' + deletedLocation)
   } catch (err) {
     console.log(err)
