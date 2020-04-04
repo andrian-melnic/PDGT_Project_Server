@@ -10,13 +10,13 @@ const checkOwnership = require('../middleware/checkOwnership')
 */
 
 router.get('/', auth.optional, locController.loc_get)
-router.get('/:id', auth.optional, locController.loc_getId)
+router.get('/location', auth.optional, locController.loc_getId)
 router.post('/new', auth.required, locController.loc_create)
-router.put('/update/:id',
+router.put('/location/update',
   auth.required,
   checkOwnership.verifyIDs,
   locController.loc_update)
-router.delete('/delete/:id',
+router.delete('/location/delete',
   auth.required,
   checkOwnership.verifyIDs,
   locController.loc_delete)
