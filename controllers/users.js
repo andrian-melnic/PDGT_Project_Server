@@ -16,9 +16,7 @@ exports.register = async (req, res) => {
     finalUser.setPassword(user.password)
 
     const newUser = await finalUser.save()
-    return res.json({
-      user: newUser.toAuthJSON()
-    })
+    return res.send(`User ${newUser.email} created`)
   } catch (error) {
     console.log(error)
     res.json({
