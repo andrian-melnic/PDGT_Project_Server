@@ -90,7 +90,7 @@ exports.loc_update = async (req, res) => {
 exports.loc_delete = async (req, res) => {
   try {
     const deletedLocation = await (Location.findByIdAndRemove(req.query.id))
-    res.json('Deleted: ' + deletedLocation)
+    res.json(deletedLocation)
   } catch (err) {
     console.log(err)
   }
