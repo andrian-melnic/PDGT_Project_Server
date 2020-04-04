@@ -23,6 +23,7 @@ exports.loc_get = async (req, res) => {
     res.json(drinkingWaterLocs)
   } catch (err) {
     console.log(err)
+    res.json(error)
   }
 }
 
@@ -33,6 +34,7 @@ exports.loc_getId = async (req, res) => {
     res.json(drinkingWaterLoc)
   } catch (err) {
     console.log(err)
+    res.json(error)
   }
 }
 
@@ -60,6 +62,7 @@ exports.loc_create = async (req, res) => {
       error: err.message
     })
     console.log(err)
+    res.json(error)
   }
 }
 
@@ -83,6 +86,7 @@ exports.loc_update = async (req, res) => {
     res.json(updatedData)
   } catch (error) {
     console.log(error)
+    res.json(error)
   }
 }
 
@@ -93,5 +97,6 @@ exports.loc_delete = async (req, res) => {
     res.json(deletedLocation)
   } catch (err) {
     console.log(err)
+    res.json(error)
   }
 }

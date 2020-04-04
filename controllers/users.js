@@ -42,5 +42,6 @@ exports.current = async (req, res) => {
     return res.json({ user: currentUser.toAuthJSON() })
   } catch (error) {
     console.log(error)
+    res.json(error)
   }
 }
