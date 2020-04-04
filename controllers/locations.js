@@ -20,7 +20,7 @@ exports.loc_get = async (req, res) => {
   // GET all drinking water fountains
   try {
     const drinkingWaterLocs = await (Location.find({}))
-    res.send(drinkingWaterLocs)
+    res.json(drinkingWaterLocs)
   } catch (err) {
     console.log(err)
   }
@@ -30,7 +30,7 @@ exports.loc_get = async (req, res) => {
 exports.loc_getId = async (req, res) => {
   try {
     const drinkingWaterLoc = await (Location.findById(req.query.id))
-    res.send(drinkingWaterLoc)
+    res.json(drinkingWaterLoc)
   } catch (err) {
     console.log(err)
   }
@@ -52,9 +52,9 @@ exports.loc_create = async (req, res) => {
     })
     const addedDrinkingWaterLoc = await (location.save())
     const creator = await User.findById(id)
-    res.json(addedDrinkingWaterLoc)
     creator.createdLocations.push(location)
     await creator.save()
+    res.json(addedDrinkingWaterLoc)
   } catch (err) {
     res.json({
       error: err.message
@@ -80,7 +80,7 @@ exports.loc_update = async (req, res) => {
       req.query.id,
       { $set: updatedData }
     )
-    res.send('Location ' + updatedLocation + 'updated in:' + updatedData)
+    res.json(updatedData)
   } catch (error) {
     console.log(error)
   }
@@ -90,7 +90,7 @@ exports.loc_update = async (req, res) => {
 exports.loc_delete = async (req, res) => {
   try {
     const deletedLocation = await (Location.findByIdAndRemove(req.query.id))
-    res.send('Deleted: ' + deletedLocation)
+    res.json('Deleted: ' + deletedLocation)
   } catch (err) {
     console.log(err)
   }
