@@ -13,12 +13,6 @@ const UsersSchema = new Schema({
 
   salt: String,
 
-  // User' s favorite drinking water positions
-  favLocations: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Location'
-  }],
-
   // Drinking water positions added by the user
   createdLocations: [{
     type: Schema.Types.ObjectId,
